@@ -1,7 +1,7 @@
 import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { NewNewsDataType } from "@/types";
-import { SharedValue } from "react-native-reanimated";
+import Animated, { Extrapolation, interpolate, SharedValue, useAnimatedStyle } from "react-native-reanimated";
 import { LinearGradient } from "expo-linear-gradient";
 import { Colors } from "@/constants/Colors";
 
@@ -10,10 +10,32 @@ type Props = {
   index: number;
   scrolling: SharedValue<number>;
 };
-const { width } = Dimensions.get("window");
+const SCREEN_WIDTH= Dimensions.get("window").width;
 const SliderItem = ({ slider, index, scrolling }: Props) => {
+  
+  const animateStyle= useAnimatedStyle(() =>{
+    return{
+      transform:[{
+        translateX:interpolate(
+          scrolling.value,
+          [(index - 1)*SCREEN_WIDTH,index*SCREEN_WIDTH, (index + 1*SCREEN_WIDTH)],
+          [-SCREEN_WIDTH*0.15,0,SCREEN_WIDTH*0.15],
+          Extrapolation.CLAMP
+        ),
+      },
+      {
+        scale:interpolate(
+          scrolling.value,
+          [(index - 1)*SCREEN_WIDTH,index*SCREEN_WIDTH, (index + 1*SCREEN_WIDTH)],
+          [0.9,1,0.9],
+          Extrapolation.CLAMP
+        )
+      }
+    ] 
+   }
+  })
   return (
-    <View style={styles.container}>
+    <Animated.View style={[styles.container,animateStyle]}>
       <Image source={{ uri: slider.image_url }} style={styles.image} />
       <LinearGradient
         colors={["transparent", "rgba(0,0,0,0.8)"]}
@@ -29,7 +51,7 @@ const SliderItem = ({ slider, index, scrolling }: Props) => {
           {slider.description}
         </Text>
       </LinearGradient>
-    </View>
+    </Animated.View>
   );
 };
 
@@ -38,14 +60,15 @@ export default SliderItem;
 const styles = StyleSheet.create({
   container: {
     position: "relative",
-    width: width,
+    width: SCREEN_WIDTH,
     justifyContent: "center",
     alignItems: "center",
   },
   image: {
-    width: width - 60,
+    width: SCREEN_WIDTH-60 ,
     height: 180,
     borderRadius: 20,
+    resizeMode:"cover"
   },
   title: {
     color: Colors.white,
@@ -57,13 +80,13 @@ const styles = StyleSheet.create({
   },
   bgWrapper: {
     position: "absolute",
-    width: width - 60,
+    width: SCREEN_WIDTH-60 ,
     height: 180,
     borderRadius: 20,
-    right: 0,
-    left: 30,
-    top: 0,
-    padding: 20,
+    // right: 0,
+    // // left: 30,
+    // top: 0,
+    // padding: 20,
   },
   infoWrapper: {
     flexDirection: "row",

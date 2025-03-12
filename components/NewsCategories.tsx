@@ -1,7 +1,9 @@
-import { ActivityIndicator, Image, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { NewNewsDataType } from '@/types'
 import { Colors } from '@/constants/Colors'
+import { router } from 'expo-router'
+import SliderItem from './SliderItem'
 
 type Props = {
     data:NewNewsDataType[]
@@ -18,7 +20,8 @@ const NewsCategories = ({data}: Props) => {
                 size={"large"} 
                 style={styles.customLoader}/>):
            ( data.map((item,index)=>(
-                <View key={index} style={styles.itemWrapper}>
+            <TouchableOpacity key={index} onPress={() => router.push({ pathname: `/news/[id]`, params: { id: item.article_id } })}>
+                <View  style={styles.itemWrapper}>
                     <Image source={{uri:item.image_url}} style={styles.itemImage}/>
                     <View style={styles.infoWrapper}>
                     <Text style={styles.category}>{item.category}</Text>
@@ -30,6 +33,7 @@ const NewsCategories = ({data}: Props) => {
                     </View>
                     
                 </View>
+                </TouchableOpacity>
             )))
         }
       

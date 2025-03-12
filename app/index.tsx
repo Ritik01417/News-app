@@ -8,7 +8,7 @@ import {
 import React from "react";
 import { useRouter } from "expo-router";
 import { Colors } from "@/constants/Colors";
-import Animated, { FadeInDown, FadeInLeft, FadeInRight } from "react-native-reanimated";
+import Animated, { FadeInDown, FadeInLeft, FadeInRight, FlipInEasyX } from "react-native-reanimated";
 import {StatusBar} from "expo-status-bar";
 
 const Page = () => {
@@ -18,9 +18,13 @@ const Page = () => {
     <View style={styles.container}>
       <StatusBar style="light"/>
       <ImageBackground
-        source={require("@/assets/images/OnBoarding_screen.jpg")}
+        source={require("@/assets/images/Boarding_screen.jpg")}
         resizeMode="cover"
-        style={{ flex: 1 }}
+        
+        style={{ flex: 1,
+          justifyContent:"center",
+          
+         }}
       >
         <View style={styles.screenWrapper}>
           <Animated.Text 
@@ -48,6 +52,7 @@ export default Page;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+   
   },
   screenWrapper: {
     flex: 1,
@@ -55,7 +60,7 @@ const styles = StyleSheet.create({
     paddingBottom:50,
     paddingHorizontal: 30,
     gap:10,
-    backgroundColor: "rgba(0,0,0,0.5)",
+    backgroundColor: "rgba(28, 28, 28, 0.5)",
   },
   textcontent:{
     color: Colors.white,

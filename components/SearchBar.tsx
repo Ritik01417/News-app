@@ -1,12 +1,15 @@
 import { StyleSheet, Text, TextInput, View } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { Colors } from '@/constants/Colors'
 import { Ionicons } from '@expo/vector-icons'
+import { NewNewsDataType } from '@/types'
 
 
-type Props = {}
+type Props = {
+}
 
 const SearchBar = (props: Props) => {
+  const [searchText, setSearchText] = useState('')
   return (
     <View style={styles.container}>
       <View style={styles.searchBar}>
@@ -20,6 +23,8 @@ const SearchBar = (props: Props) => {
         autoCapitalize='none'
         placeholderTextColor={Colors.lightGrey}
         style={styles.searchBarText}
+        value={searchText}
+        onChangeText={(text) => setSearchText(text)}
         />
       </View>
     </View>

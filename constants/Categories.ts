@@ -1,4 +1,4 @@
-const newsCategoryList = [
+const newsCategory = [
   {
     id: 1,
     title: 'All',
@@ -43,4 +43,4 @@ const newsCategoryList = [
   },
 ];
 
-export default newsCategoryList;
+export default newsCategory;

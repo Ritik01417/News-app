@@ -1,58 +1,97 @@
-import { FlatList, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
-import { NewNewsDataType } from '@/types'
+import {  StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { useCallback, useState } from 'react'
 import SearchBar from '@/components/SearchBar'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import newsCategory from '@/constants/Categories'
 import CheckList from '@/components/CheckList'
+import CountryList from '@/constants/CountryList'
+import { Colors } from '@/constants/Colors'
+import { Link, router } from 'expo-router'
+import search from '../news/search'
 
 
 type Props = {}
 
 const Page = (props: Props) => {
   const {top:safeTop}=useSafeAreaInsets();
+  const [newsList, setNewsList] = useState(newsCategory)
+  const [newsCountry, setNewsCountry] = useState(CountryList)
+  const [searchValue, setSearchValue] = useState('')
+  const [searchCountry, setSearchCountry] = useState('')
+  const [searchCategory, setSearchCategory] = useState('')
 
-  //   const [searchText, setSearchText] = useState('')
-  //   const [articles, setArticles] = useState<NewNewsDataType[]>([]);
+  const toggelCountryCheck=useCallback((index:number)=>{
+    setNewsCountry((prev)=>{
+      return prev.map((item,id)=>{
+        if(id===index){
+          return {...item,selected:!item.selected}
+        }
+        return item
+    })
+  })
+  },[])
 
-  // useEffect(()=>{
-  //   if(searchText){
-      
-  //     const getNews = async () => {
-  //       const newsArticles = await searchNews(searchText);
-  //       setArticles(newsArticles);
-  //     };
-  //     getNews();
+  const toggelCategoryCheck=useCallback((index:number)=>{
+    setNewsList((prev)=>{
+      return prev.map((item)=>{
+        if(item.id===index){
+          return {...item,selected:!item.selected}
+        }
+        return item
+      })
+    })
+  },[])
 
-  //   }
-    
-  // },[searchText])
 
-  // const searchNews = async (searchNews:String)=>{
-  //   const URL = `https://newsdata.io/api/1/news?apikey=${process.env.EXPO_PUBLIC_API_KEY}&q=${searchNews}&image=1&removeduplicate=1&size=5`;
-  //   try {
-  //     const response = await axios.get(URL)
-  //     return response.data.results
-  //   } catch (error:any) {
-  //     console.log(`Error Fetching`);
-  //     // return
-      
-  //   }
-  // }
   return (
     <View style={[styles.container,{paddingTop:safeTop}]}>
-  <SearchBar  />
+  <SearchBar onSearchFunction={setSearchValue}  />
+
+  {/*Category Check */}
   <Text style={styles.title}>Categories</Text>
   <View style={styles.listContent}>
     {
-      newsCategory.map((item,index)=>(
-        <CheckList key={index} label={item.title} checked={item.selected} oncheck={()=>{}}/>
+      newsList.map((item,index)=>(
+        <CheckList key={index} label={item.title} 
+         checked={item.selected}
+         oncheck={()=>{
+          toggelCategoryCheck(item.id)
+          setSearchCategory(item.slug)
+        }}/>
       ))
     }
   </View>
   
+
+  {/* Country Check */}
+  <Text style={styles.title}>Categories</Text>
+  <View style={styles.listContent}>
+    {
+      newsCountry.map((item,index)=>(
+        <CheckList key={index} label={item.name} checked={item.selected} 
+        oncheck={()=>{
+          toggelCountryCheck(index)
+          setSearchCountry(item.code)
+        }}/>
+      ))
+    }
     </View>
+
+    <Link href={{
+      pathname:"/news/search",
+      params:{query:searchValue,
+        category:searchCategory,
+        country:searchCountry,
+      }
+    }} asChild>
+    
+    <TouchableOpacity  style={styles.searchBtn}>
+    <Text style={styles.btnText}>Search</Text>
+  </TouchableOpacity>
+    </Link>
+
+  
+  </View>
   )
 }
 
@@ -61,7 +100,6 @@ export default Page
 const styles = StyleSheet.create({
   container: {
    flex:1,
-  //  marginLeft:20
   },
   title:{
     fontSize:20,
@@ -79,5 +117,20 @@ const styles = StyleSheet.create({
     flexWrap:"wrap",
     marginLeft:20,
     
+  },
+  searchBtn:{
+    borderRadius:10,
+    borderBlockColor:Colors.tint,
+    borderWidth:1,
+    justifyContent:"center",
+    alignItems:"center",
+    padding:10,
+    marginHorizontal:20,
+    backgroundColor:Colors.tint,
+  },
+  btnText:{
+    color:Colors.white,
+    fontSize:16,
+    fontWeight:"bold"
   }
 })

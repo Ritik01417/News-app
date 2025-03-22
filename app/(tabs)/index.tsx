@@ -16,8 +16,7 @@ const Page = (props: Props) => {
   const {top:safeTop}=useSafeAreaInsets();
   const [news,setNews]=useState<NewNewsDataType[]>([]);
   const [newsList,setNewsList]=useState<NewNewsDataType[]>([]);
-  const [isLoading,SetIsLoading]=useState(true)
-  // const [searchValue, setSearchValue] = useState<NewNewsDataType[]>([])
+  const [isLoading,SetIsLoading]=useState(true) 
   const [searchQuery, setSearchQuery] = useState('')
 
   useEffect(()=>{

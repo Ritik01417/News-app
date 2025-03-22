@@ -37,6 +37,7 @@ const NewsPage = (props: Props) => {
     <>
       <Stack.Screen
         options={{
+          title:"",
           headerLeft: () => (
             <TouchableOpacity onPress={() => router.back()}>
               <Ionicons name="arrow-back" size={24} />
@@ -55,7 +56,7 @@ const NewsPage = (props: Props) => {
               />
             </TouchableOpacity>
           ),
-          title:""
+          
         }}
       />
       {isLoading?<ActivityIndicator size={"large"} color={Colors.tint}/>:(

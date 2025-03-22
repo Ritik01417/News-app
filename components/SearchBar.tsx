@@ -6,9 +6,10 @@ import { NewNewsDataType } from '@/types'
 
 
 type Props = {
+  onSearchFunction:Function
 }
 
-const SearchBar = (props: Props) => {
+const SearchBar = ({onSearchFunction}: Props) => {
   const [searchText, setSearchText] = useState('')
   return (
     <View style={styles.container}>
@@ -24,7 +25,12 @@ const SearchBar = (props: Props) => {
         placeholderTextColor={Colors.lightGrey}
         style={styles.searchBarText}
         value={searchText}
-        onChangeText={(text) => setSearchText(text)}
+        onChangeText={query => {onSearchFunction(query)
+          setSearchText(query)
+        }
+          
+
+        }
         />
       </View>
     </View>

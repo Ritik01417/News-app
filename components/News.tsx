@@ -42,7 +42,7 @@ const News = ({ data }: Props) => {
   });
 
   const onEndReached = () => {
-    setNewsData((prevData) => [...prevData, ...data]); // Duplicate data
+    setNewsData((prevData) => [...prevData, ...data]); // Duplicates data
   };
   useEffect(()=>{
     if(isAutoUpdate===true){

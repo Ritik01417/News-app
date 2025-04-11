@@ -7,7 +7,7 @@ import CheckList from '@/components/CheckList'
 import CountryList from '@/constants/CountryList'
 import { Colors } from '@/constants/Colors'
 import { Link, router } from 'expo-router'
-import search from '../news/search'
+
 
 
 type Props = {}

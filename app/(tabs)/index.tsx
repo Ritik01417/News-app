@@ -9,6 +9,7 @@ import News from '@/components/News'
 import Categories from '@/components/Categories'
 import { Colors } from '@/constants/Colors'
 import NewsCategories from '@/components/NewsCategories'
+import {AppProvider} from './context/AppContext'
 
 type Props = {}
 
@@ -17,7 +18,7 @@ const Page = (props: Props) => {
   const [news,setNews]=useState<NewNewsDataType[]>([]);
   const [newsList,setNewsList]=useState<NewNewsDataType[]>([]);
   const [isLoading,SetIsLoading]=useState(true) 
-  const [searchQuery, setSearchQuery] = useState('')
+  // const [searchQuery, setSearchQuery] = useState('')
 
   useEffect(()=>{
     getNews();
@@ -72,9 +73,10 @@ const onChangeCategories=(category:string)=>{
 }
 
   return (
+    <AppProvider>
     <ScrollView style={[styles.container, {paddingTop:safeTop}]}> 
       <Header />
-      <SearchBar/>
+      {/* <SearchBar/> */}
       {
         isLoading?<ActivityIndicator style={styles.customLoader}
         color={Colors.tint} size={"large"}/>:<News data={news}/>
@@ -83,6 +85,7 @@ const onChangeCategories=(category:string)=>{
       <Categories onChangeCategories={onChangeCategories}/>
       <NewsCategories data={newsList}/>
     </ScrollView>
+    </AppProvider>
   )
 }
 

@@ -8,7 +8,7 @@ import {
 import React from "react";
 import { useRouter } from "expo-router";
 import { Colors } from "@/constants/Colors";
-import Animated, { FadeInDown, FadeInLeft, FadeInRight, FlipInEasyX } from "react-native-reanimated";
+import Animated, { FadeInDown, FadeInLeft, FadeInRight, } from "react-native-reanimated";
 import {StatusBar} from "expo-status-bar";
 
 const Page = () => {
@@ -36,7 +36,7 @@ const Page = () => {
           <Animated.View entering={FadeInDown.delay(1300).duration(500)}>
           <TouchableOpacity 
           style={styles.startBtn}
-          onPress={() => router.replace("/(tabs)")}>
+          onPress={() => router.replace("/(auth)")}>
             <Text style={styles.btnText}>Get Started </Text>
           </TouchableOpacity>
           </Animated.View>

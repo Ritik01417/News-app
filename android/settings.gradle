@@ -44,7 +44,7 @@ if (getRNMinorVersion() >= 75) {
   }
 }
 
-rootProject.name = 'expo-news-app-starter'
+rootProject.name = 'expo-news-app'
 
 dependencyResolutionManagement {
   versionCatalogs {
